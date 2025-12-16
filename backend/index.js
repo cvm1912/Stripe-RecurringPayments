@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { connectDatabase } from './src/configs/database.js';
+import userRoutes from './src/routes/userRoutes.js'
 dotenv.config();
 connectDatabase();
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
     })
 })
 
+// app.use('/api/v1/users', userRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);

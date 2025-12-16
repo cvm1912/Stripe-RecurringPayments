@@ -1,6 +1,6 @@
 
-# Stripe Subscription App
-This project integrates Stripe recurring subscriptions using Node.js, Express, MongoDB (Mongoose), and Stripe Checkout.
+# Stripe customer App
+This project integrates Stripe recurring customers using Node.js, Express, MongoDB (Mongoose), and Stripe Checkout.
 
 What each does:
 
@@ -11,4 +11,4 @@ What each does:
 ✔ body-parser — read JSON requests
 ✔ cors — enable frontend ↔ backend communication
 
-This aligns with how Stripe tutorials show backend setup for subscriptions.
+This aligns with how Stripe tutorials show backend setup for customers.
