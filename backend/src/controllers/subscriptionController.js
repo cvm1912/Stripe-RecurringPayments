@@ -1,12 +1,12 @@
-import { Subscription } from "../models/subscription.js";
+import { Subscription } from "../models/Subscription.js";
 import { User } from "../models/user.js";
 import { Price } from "../models/price.js";
 import stripe from "../configs/stripeClient.js";
 
-// Create subscription via Stripe
+// Create Subscription with Dynamic Time Autopay
 export const createSubscription = async (req, res) => {
   try {
-    const { userId, priceId } = req.body;
+    const { userId, priceId, scheduleMinutes = 0 } = req.body;
 
     if (!userId || !priceId) {
       return res.status(400).json({
@@ -25,19 +25,42 @@ export const createSubscription = async (req, res) => {
       });
     }
 
-    // Stripe subscription creation
-    const subscription = await stripe.subscriptions.create({
-      customer: user.stripeCustomerId,
-      items: [{ price: price.stripePriceId }],
-      payment_behavior: "default_incomplete",
-      payment_settings: { save_default_payment_method: "on_subscription" },
-      expand: ["latest_invoice.payment_intent"],
+    // Create payment method for autopay
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: 'card',
+      card: { token: 'tok_visa' },
     });
 
-    const paymentIntent = subscription.latest_invoice?.payment_intent;
+    await stripe.paymentMethods.attach(paymentMethod.id, {
+      customer: user.stripeCustomerId,
+    });
 
-    // Map Stripe subscription to DB model
-    const subscriptionData = {
+    let subscription;
+    let message = "Autopay subscription created successfully";
+
+    if (scheduleMinutes > 0) {
+      // Scheduled subscription
+      const billingCycleAnchor = Math.floor(Date.now() / 1000) + (scheduleMinutes * 60);
+      
+      subscription = await stripe.subscriptions.create({
+        customer: user.stripeCustomerId,
+        items: [{ price: price.stripePriceId }],
+        default_payment_method: paymentMethod.id,
+        billing_cycle_anchor: billingCycleAnchor,
+        proration_behavior: 'none',
+      });
+      
+      message = `Autopay subscription scheduled to start in ${scheduleMinutes} minutes`;
+    } else {
+      // Immediate subscription
+      subscription = await stripe.subscriptions.create({
+        customer: user.stripeCustomerId,
+        items: [{ price: price.stripePriceId }],
+        default_payment_method: paymentMethod.id,
+      });
+    }
+
+    const newSubscription = await Subscription.create({
       user: userId,
       stripeSubscriptionId: subscription.id,
       stripeCustomerId: user.stripeCustomerId,
@@ -50,70 +73,23 @@ export const createSubscription = async (req, res) => {
       currentPeriodEnd: subscription.current_period_end
         ? new Date(subscription.current_period_end * 1000)
         : undefined,
+    });
+
+    const responseData = {
+      subscription: newSubscription,
+      paymentMethodId: paymentMethod.id,
+      status: subscription.status
     };
 
-    const newSubscription = await Subscription.create(subscriptionData);
+    if (scheduleMinutes > 0) {
+      responseData.scheduledStart = new Date((Math.floor(Date.now() / 1000) + (scheduleMinutes * 60)) * 1000);
+      responseData.scheduleMinutes = scheduleMinutes;
+    }
 
     return res.status(201).json({
       success: true,
-      message: "Subscription created successfully",
-      data: {
-        subscription: newSubscription,
-        clientSecret: paymentIntent?.client_secret,
-        paymentIntentId: paymentIntent?.id,
-      },
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-// Create Checkout Session
-export const createCheckoutSession = async (req, res) => {
-  try {
-    const { userId, priceId } = req.body;
-
-    if (!userId || !priceId) {
-      return res.status(400).json({
-        success: false,
-        message: "userId and priceId are required",
-      });
-    }
-
-    const user = await User.findById(userId);
-    const price = await Price.findById(priceId);
-
-    if (!user || !price) {
-      return res.status(404).json({
-        success: false,
-        message: "User or Price not found",
-      });
-    }
-
-    const session = await stripe.checkout.sessions.create({
-      customer: user.stripeCustomerId,
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: price.stripePriceId,
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: "Checkout session created successfully",
-      data: {
-        sessionId: session.id,
-        url: session.url,
-      },
+      message: message,
+      data: responseData,
     });
   } catch (error) {
     return res.status(500).json({

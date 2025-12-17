@@ -1,0 +1,879 @@
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.App-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 30px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.App-header h1 {
+  margin: 0 0 25px 0;
+  font-size: 2.5em;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+nav button {
+  padding: 12px 24px;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+nav button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+nav button.active {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  color: #333;
+  transform: translateY(-2px);
+}
+
+.form-container, .product-container, .subscription-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 40px;
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 800px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-container form div {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-container input, .form-container select, .subscription-form input, .subscription-form select {
+  padding: 15px 20px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 15px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.form-container input:focus, .form-container select:focus, .subscription-form input:focus, .subscription-form select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+  transform: translateY(-2px);
+}
+
+.form-container button, .create-subscription-btn {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.form-container button:disabled, .create-subscription-btn:disabled {
+  background: linear-gradient(135deg, #ccc 0%, #999 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.form-container button:hover:not(:disabled), .create-subscription-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+.success {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 195, 74, 0.1) 100%);
+  color: #2e7d32;
+  font-weight: 600;
+  padding: 15px 20px;
+  border-radius: 15px;
+  margin-top: 15px;
+  border: 2px solid rgba(76, 175, 80, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.error {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(233, 30, 99, 0.1) 100%);
+  color: #c62828;
+  font-weight: 600;
+  padding: 15px 20px;
+  border-radius: 15px;
+  margin-top: 15px;
+  border: 2px solid rgba(244, 67, 54, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.warning {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+  color: #f57c00;
+  font-weight: 600;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 152, 0, 0.3);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.section {
+  margin: 30px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section h2 {
+  margin-top: 0;
+}
+
+.form {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.form input, .form select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.form button {
+  padding: 8px 16px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #1976D2;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 25px;
+}
+
+.item-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.item-card h3, .item-card h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.item-card p {
+  margin: 8px 0;
+  color: #666;
+}
+
+.item-card small {
+  color: #999;
+  font-size: 12px;
+}
+
+.user-info {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(3, 169, 244, 0.1) 100%);
+  padding: 25px;
+  border-radius: 20px;
+  margin: 25px 0;
+  border: 2px solid rgba(33, 150, 243, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.user-info h3 {
+  margin: 0 0 10px 0;
+  color: #1976d2;
+}
+
+.subscription-form {
+  margin: 20px 0;
+}
+
+.subscription-form > div {
+  margin: 15px 0;
+}
+
+.subscription-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.subscription-form select {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.button-group button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.button-group button:first-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button-group button:first-child:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.button-group button:last-child {
+  background-color: #ff9800;
+  color: white;
+}
+
+.button-group button:last-child:hover:not(:disabled) {
+  background-color: #f57c00;
+}
+
+.button-group button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.subscriptions-list {
+  margin-top: 40px;
+}
+
+.subscriptions-list h3 {
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.test-clock-section {
+  background: #fff3cd;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  border: 1px solid #ffeaa7;
+}
+
+.test-clock-section p {
+  margin: 0 0 10px 0;
+  font-weight: bold;
+  color: #856404;
+}
+
+.time-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group h4 {
+  margin: 0;
+  color: #856404;
+  font-size: 14px;
+  text-align: center;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-group h4 {
+  min-width: 60px;
+  margin: 0;
+  color: #856404;
+  font-size: 14px;
+}
+
+.time-controls button {
+  padding: 6px 12px;
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.time-controls button:hover:not(:disabled) {
+  background-color: #e0a800;
+}
+
+.time-controls button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.quick-test-section {
+  background: #d4edda;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  border: 1px solid #c3e6cb;
+}
+
+.quick-test-section h3 {
+  margin: 0 0 10px 0;
+  color: #155724;
+}
+
+.quick-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.quick-buttons button {
+  padding: 10px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.quick-buttons button:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.quick-buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.autopay-btn {
+  background-color: #007bff !important;
+  color: white !important;
+}
+
+.autopay-btn:hover:not(:disabled) {
+  background-color: #0056b3 !important;
+}
+
+.scheduled-autopay-btn {
+  background-color: #6f42c1 !important;
+  color: white !important;
+}
+
+.scheduled-autopay-btn:hover:not(:disabled) {
+  background-color: #5a32a3 !important;
+}
+
+.scheduling-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  padding: 25px;
+  border-radius: 20px;
+  margin: 25px 0;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.scheduling-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #495057;
+}
+
+.schedule-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.schedule-controls input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.schedule-controls span {
+  color: #6c757d;
+  font-weight: normal;
+}
+
+.success-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.success-message h1 {
+  margin: 0 0 15px 0;
+  font-size: 2.5em;
+}
+
+.success-message p {
+  margin: 0;
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+.subscription-details {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.subscription-details h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.subscriptions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.subscription-card {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid #28a745;
+}
+
+.subscription-card h3 {
+  margin: 0 0 15px 0;
+  color: #28a745;
+  text-transform: capitalize;
+}
+
+.subscription-card p {
+  margin: 8px 0;
+  color: #666;
+}
+
+.autopay-indicator {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.autopay-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.next-steps {
+  background: #fff3cd;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #ffeaa7;
+  margin-bottom: 30px;
+}
+
+.next-steps h3 {
+  color: #856404;
+  margin: 0 0 15px 0;
+}
+
+.next-steps ul {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.next-steps li {
+  margin: 10px 0;
+  color: #856404;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.primary-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.primary-btn:hover {
+  background-color: #0056b3;
+}
+
+.secondary-btn {
+  background-color: #6c757d;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.secondary-btn:hover {
+  background-color: #545b62;
+}
+
+.scheduled-payments {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+  padding: 25px;
+  border-radius: 20px;
+  margin: 25px 0;
+  border: 2px solid rgba(255, 193, 7, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.scheduled-payments h3 {
+  margin: 0 0 15px 0;
+  color: #856404;
+}
+
+.scheduled-item {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+}
+
+.scheduled-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.scheduled-info .amount {
+  font-weight: bold;
+  color: #28a745;
+  font-size: 1.1em;
+}
+
+.countdown {
+  color: #856404;
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Payment Success Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  width: 90%;
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: popupSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.8) rotateX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+.popup-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 35px;
+  border-radius: 25px 25px 0 0;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.success-icon {
+  font-size: 4em;
+  margin-bottom: 15px;
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+.popup-header h2 {
+  margin: 0;
+  font-size: 2.2em;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.popup-content {
+  padding: 30px;
+}
+
+.success-message {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.success-message p {
+  font-size: 1.1em;
+  color: #28a745;
+  margin: 0;
+}
+
+.subscription-info {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  border: 2px solid rgba(102, 126, 234, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.subscription-info h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.2em;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-item .label {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 500;
+}
+
+.info-item .value {
+  font-weight: bold;
+  color: #333;
+}
+
+.status-active {
+  color: #28a745 !important;
+  text-transform: capitalize;
+}
+
+.autopay-benefits {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(3, 169, 244, 0.1) 100%);
+  padding: 25px;
+  border-radius: 20px;
+  border: 2px solid rgba(33, 150, 243, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.autopay-benefits h4 {
+  margin: 0 0 15px 0;
+  color: #1976d2;
+}
+
+.autopay-benefits ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.autopay-benefits li {
+  margin: 8px 0;
+  color: #1976d2;
+}
+
+.popup-footer {
+  padding: 20px 30px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.popup-footer .primary-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 150px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.popup-footer .primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 600px) {
+  .popup-container {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .popup-content {
+    padding: 20px;
+  }
+}
