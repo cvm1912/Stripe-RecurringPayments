@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { connectDatabase } from './src/configs/database.js';
 import userRoutes from './src/routes/userRoutes.js'
 import productRoutes from './src/routes/productRoutes.js'
+import priceRoutes from './src/routes/priceRoutes.js'
 dotenv.config();
 connectDatabase();
 
@@ -21,6 +22,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes );
+app.use('/api/v1/prices', priceRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
