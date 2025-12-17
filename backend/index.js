@@ -4,6 +4,7 @@ import { connectDatabase } from './src/configs/database.js';
 import userRoutes from './src/routes/userRoutes.js'
 import productRoutes from './src/routes/productRoutes.js'
 import priceRoutes from './src/routes/priceRoutes.js'
+import subscriptionRoutes from './src/routes/subscription.js'
 dotenv.config();
 connectDatabase();
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes );
 app.use('/api/v1/prices', priceRoutes);
+app.use('/api/v1/subscriptions', subscriptionRoutes);
 
 
 app.listen(port, () => {
