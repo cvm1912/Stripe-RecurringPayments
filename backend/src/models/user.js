@@ -16,6 +16,33 @@ const userSchema = new mongoose.Schema({
   stripeCustomerId: { 
     type: String 
   }, 
+
+  profileImage: {   // ✅ profile picture yahan
+    type: String
+  }, 
+
+  address:{
+    line1: { 
+      type: String 
+    },
+
+    city: { 
+      type: String 
+    },
+    state: { 
+      type: String 
+    },
+    postal_code: { 
+      type: String 
+    },
+
+    country: { 
+      type: String 
+    }
+  }, 
+
+  preferredLocales: [{ type: String }],
+  paymentMethodId: { type: String }
 });
 
 export const User = mongoose.model("User", userSchema);
