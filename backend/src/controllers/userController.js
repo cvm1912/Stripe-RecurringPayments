@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 import stripe from "../configs/stripeClient.js";
 import { hashPassword, comparePassword } from "../utils/password.utils.js";
 
+
 export const userRegister = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -160,48 +161,32 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-export const getStripeCustomer = async (req, res) => {
-  try {
-    const { userId } = req.body;
+export const customerList = async (req,res) =>{
+   const customers = await  stripe.customers.list()
 
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        message: "userId is required",
-      });
-    }
+   res.status(200).json({
+    success: true,
+    count: customers.data.length,
+    data: customers.data,
+  });
 
-    const user = await User.findById(userId);
+}
 
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
+export const customer = async (req,res) =>{
+  const { userId } = req.params;
 
-    if (!user.stripeCustomerId) {
-      return res.status(404).json({
-        success: false,
-        message: "Stripe customer not found",
-      });
-    }
-
-    const customer = await stripe.customers.retrieve(user.stripeCustomerId);
-
-    return res.status(200).json({
-      success: true,
-      message: "Stripe customer retrieved successfully",
-      data: {
-        userId: user._id,
-        stripeCustomerId: customer.id,
-        customer,
-      },
-    });
-  } catch (error) {
-    return res.status(500).json({
+  const user = await User.findById(userId);
+  if (!user || !user.stripeCustomerId) {
+    return res.status(404).json({
       success: false,
-      message: error.message,
+      message: "Stripe customer not found for this user",
     });
   }
-};
+
+  const customer = await stripe.customers.retrieve(user.stripeCustomerId);
+  return res.status(200).json({
+    success: true,
+    data: customer,
+  });
+
+}
