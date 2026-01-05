@@ -146,3 +146,4 @@ export const getStripeCustomer = async (req, res) => {
   }
 };
 
+console.log("hello");
